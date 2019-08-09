@@ -2,13 +2,15 @@
   "extends": "./tsconfig.json",
   "compilerOptions": {
     "outDir": "./out-tsc/spec",
+    "allowJs": true,
+    "module": "commonjs",
     "types": [
-      "jasmine",
+      "jest",
       "node"
     ]
   },
   "files": [
-    "src/test.ts",
+    // "src/setup-jest.ts",
     "src/zone-flags.ts",
     "src/polyfills.ts"
   ],
