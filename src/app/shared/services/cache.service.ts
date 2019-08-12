@@ -5,7 +5,7 @@ import { Storage } from '@ionic/storage';
   providedIn: 'root'
 })
 export class CacheService {
-  private tokenKey = "lapernih-token"
+  private tokenKey = "ionic4-token"
   currentUser: any
 
   constructor(private storage: Storage) { }
