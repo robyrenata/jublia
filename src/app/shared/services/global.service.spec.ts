@@ -1,11 +1,10 @@
 import { TestBed } from '@angular/core/testing';
 
 import { GlobalService } from './global.service';
-import { RouterTestingModule } from '@angular/router/testing';
 
 describe('GlobalService', () => {
   beforeEach(() => TestBed.configureTestingModule({
-    imports: [RouterTestingModule]
+    imports: []
   }));
 
   it('should be created', () => {

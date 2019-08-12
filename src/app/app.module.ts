@@ -13,6 +13,7 @@ import { AppRoutingModule } from './app-routing.module';
 import { HttpRequestInterceptor } from '@shared/interceptors/http-request.interceptor';
 import { HttpErrorInterceptor } from '@shared/interceptors/http-error.interceptor';
 import { IonicStorageModule } from '@ionic/storage';
+import { JwtAuthModule } from './jwt-auth.module';
 
 @NgModule({
   declarations: [AppComponent],
@@ -21,7 +22,8 @@ import { IonicStorageModule } from '@ionic/storage';
     BrowserModule, 
     IonicModule.forRoot(), 
     IonicStorageModule.forRoot(),
-    AppRoutingModule
+    AppRoutingModule,
+    JwtAuthModule
   ],
   providers: [
     StatusBar,

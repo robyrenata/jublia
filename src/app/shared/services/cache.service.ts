@@ -5,7 +5,8 @@ import { Storage } from '@ionic/storage';
   providedIn: 'root'
 })
 export class CacheService {
-  tokenKey = "token"
+  private tokenKey = "token"
+  currentUser: any
 
   constructor(private storage: Storage) { }
 
@@ -14,5 +15,11 @@ export class CacheService {
   getToken() { return this.storage.get(this.tokenKey) }
   
   removeToken() { return this.storage.remove(this.tokenKey) }
+
+  setCurrentUser(data:any, token:string){
+    this.setToken(token)
+    this.currentUser = data
+    this.currentUser.token = token
+  }
 
 }

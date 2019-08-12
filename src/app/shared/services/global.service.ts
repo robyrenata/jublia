@@ -1,17 +1,11 @@
 import { Injectable, isDevMode } from '@angular/core';
 import * as _ from 'lodash';
-import { Observable, of } from 'rxjs';
-import { Router } from '@angular/router';
 
 @Injectable({
   providedIn: 'root'
 })
 export class GlobalService {
-  constructor(private router: Router) { }
-
-  backToHome() {
-    this.router.navigate(['/home'])
-  }
+  constructor() { }
 
   log(message: string, data: any = null, type: string = 'log') {
     if(isDevMode()){
