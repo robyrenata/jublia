@@ -33,11 +33,10 @@ module.exports = {
     "node_modules"
   ],
   moduleNameMapper: {
-    "@services/(.*)": 'src/app/shared/services/$1',
+    "@shared/(.*)": 'src/app/shared/$1',
     "@interceptors/(.*)": 'src/app/shared/interceptors/$1',
-    "@models/(.*)": 'src/app/shared/models/$1',
     "@guards/(.*)": 'src/app/shared/guards/$1',
-    "@components/(.*)": 'src/app/shared/components/$1',
+    "@common/(.*)": 'src/app/shared/common/$1',
     '@env/(.*)': 'src/environments/$1'
   }
 };
