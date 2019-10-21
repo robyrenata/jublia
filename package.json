@@ -70,7 +70,7 @@
   "husky": {
     "hooks": {
       "pre-commit": "ng lint && npm test",
-      "pre-push": "ng lint && ng build --aot true && npm test"
+      "pre-push": "ng lint && ng build --aot true"
     }
   }
 }
