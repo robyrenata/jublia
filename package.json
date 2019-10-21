@@ -11,7 +11,8 @@
     "lint": "ng lint",
     "e2e": "ng e2e",
     "tslint-check": "tslint-config-prettier-check ./tslint.json",
-    "mock:server": "json-server --watch mocks/dummy-data.json --routes mocks/routes.json"
+    "mock:server": "json-server --watch mocks/dummy-data.json --routes mocks/routes.json",
+    "build:android": "ionic build --prod && npx cap sync android && npx cap open android"
   },
   "private": true,
   "dependencies": {

@@ -4,7 +4,7 @@ import { CacheService } from './cache.service';
 import { GlobalService } from './global.service';
 import { Observable } from 'rxjs';
 import { tap } from 'rxjs/operators';
-import { ApiService } from './api.service';
+import { ApiService } from './core/api.service';
 import { Response } from '@shared/models';
 
 @Injectable({
