@@ -11,13 +11,9 @@
     "experimentalDecorators": true,
     "importHelpers": true,
     "target": "es2015",
-    "typeRoots": [
-      "node_modules/@types"
-    ],
-    "lib": [
-      "es2018",
-      "dom"
-    ],
+    "downlevelIteration": true,
+    "typeRoots": ["node_modules/@types"],
+    "lib": ["es2018", "dom"],
     "paths": {
       "@shared/*": ["src/app/shared/*"],
       "@interceptors/*": ["src/app/shared/interceptors/*"],
@@ -25,6 +21,6 @@
       "@common/*": ["src/app/shared/common/*"],
       "@env/*": ["src/environments/*"],
       "@angular/*": ["node_modules/@angular/*"]
-     }
+    }
   }
 }

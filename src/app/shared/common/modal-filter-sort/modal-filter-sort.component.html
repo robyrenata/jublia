@@ -1,0 +1,83 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-buttons slot="end" (click)="dismissModal()">
+      <ion-icon name="close"></ion-icon>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content [fullscreen]="true" *ngIf="data">
+  <ion-row>
+    <ion-col size="12">
+      <ion-label> Sort </ion-label>
+      <ion-row>
+        <ion-col size="4">
+          Company Name <ion-icon name="arrow-dropup"></ion-icon
+        ></ion-col>
+        <ion-col size="4">
+          Bookmarked ({{ data?.bookmarked }})
+          <ion-icon name="arrow-dropup"></ion-icon
+        ></ion-col>
+        <ion-col size="4">
+          Booth <ion-icon name="arrow-dropup"></ion-icon
+        ></ion-col>
+      </ion-row>
+    </ion-col>
+  </ion-row>
+  <ion-row>
+    <ion-col size="12">
+      <ion-label> Groups </ion-label>
+      <ion-row>
+        <ion-col size="4" *ngFor="let group of data.group">{{ group }}</ion-col>
+      </ion-row>
+    </ion-col>
+    <ion-col size="12">
+      <ion-label> Country </ion-label>
+      <ion-row>
+        <ion-col
+          size="4"
+          *ngFor="let country of data.country.slice(0, limitCountry)"
+        >
+          <ion-card>
+            {{ country }}
+          </ion-card>
+        </ion-col>
+        <ion-col
+          size="12"
+          *ngIf="data.country.length > 8"
+          (click)="
+            limitCountry =
+              limitCountry + 8 ||
+              data.country.slice(0, limitCountry).length !== data.country.length
+          "
+        >
+          More
+        </ion-col>
+      </ion-row>
+    </ion-col>
+    <ion-col size="12">
+      <ion-label> Industry </ion-label>
+      <ion-row>
+        <ion-col
+          size="4"
+          *ngFor="let industry of data.industry.slice(0, limitIndustry)"
+        >
+          <ion-card>
+            {{ industry }}
+          </ion-card>
+        </ion-col>
+        <ion-col
+          size="12"
+          *ngIf="data.industry.length > 8"
+          (click)="limitIndustry = limitIndustry + 8"
+        >
+          More
+        </ion-col>
+      </ion-row>
+    </ion-col>
+  </ion-row>
+</ion-content>
+
+<ion-footer class="ion-no-border" [translucent]="true" class="ion-padding">
+  <ion-button expand="block"> Apply </ion-button>
+</ion-footer>

@@ -1,14 +1,99 @@
 <ion-header>
   <ion-toolbar>
-    <ion-title>
-      Ionic Blank
-    </ion-title>
+    <ion-searchbar
+      (ionChange)="filterEventList($event.target.value)"
+      [animated]="true"
+    ></ion-searchbar>
   </ion-toolbar>
 </ion-header>
 
-<ion-content>
+<ion-content [scrollEvents]="true" (ionScroll)="logScroll($event)">
+  <div class="ion-padding" *ngIf="searchQuery">
+    <ion-item>
+      <ion-text>
+        <p>
+          Searching "{{searchQuery}}", found {{filteredExhibitorList.length}} of
+          {{exhibitorList.length}} exhibitor(s).
+        </p>
+      </ion-text>
+    </ion-item>
+  </div>
   <div class="ion-padding">
-    The world is your oyster.
-    <p>If you get lost, the <a target="_blank" rel="noopener" href="https://ionicframework.com/docs/">docs</a> will be your guide.</p>
+    <ion-card
+      *ngFor="let exhibitor of searchQuery ? filteredExhibitorList : exhibitorList"
+    >
+      <ion-card-header>
+        <img
+          style="max-height: 10vh; object-fit: contain"
+          [src]="exhibitor?.logo"
+        />
+        <ion-card-title>
+          <ion-text>
+            <h2>{{exhibitor?.company_name}}</h2>
+          </ion-text>
+        </ion-card-title>
+        <ion-card-subtitle>
+          <ng-container *ngFor="let attribute of exhibitor?.attributes;">
+            <ng-container *ngFor="let attr of attribute?.Country | keyvalue">
+              <ion-badge color="medium" class="ion-margin-end"
+                >{{attr?.key}}</ion-badge
+              >
+            </ng-container>
+          </ng-container>
+          <ion-badge color="medium">{{exhibitor?.booth}}</ion-badge>
+        </ion-card-subtitle>
+      </ion-card-header>
+      <ion-card-content>
+        <ion-row>
+          <ion-col size="12">
+            <ion-text>
+              <p
+                style="
+                  overflow: hidden;
+                  display: -webkit-box;
+                  -webkit-line-clamp: 3;
+                  -webkit-box-orient: vertical;
+                "
+              >
+                {{exhibitor?.company_description}}
+              </p>
+            </ion-text>
+          </ion-col>
+        </ion-row>
+        <ion-row>
+          <ion-col size="12" class="ion-text-right">
+            <ion-icon
+              [color]="exhibitor?.bookmark === 0 ? 'medium' : 'dark'"
+              name="bookmark"
+              (click)="bookmarkExhibitor(exhibitor.id_exhibitor)"
+            ></ion-icon>
+          </ion-col>
+        </ion-row>
+      </ion-card-content>
+    </ion-card>
+    <ng-container
+      *ngIf="filteredExhibitorList.length === 0 && searchQuery || exhibitorList.length === 0"
+    >
+      <ion-text>
+        <p>No record(s) found :(</p>
+      </ion-text>
+    </ng-container>
   </div>
 </ion-content>
+<ion-footer>
+  <ion-fab vertical="bottom" horizontal="center">
+    <ion-fab-button (click)="openModal(true)">
+      <ion-icon name="funnel"></ion-icon
+    ></ion-fab-button>
+  </ion-fab>
+  <ion-fab
+    vertical="bottom"
+    horizontal="end"
+    *ngIf="buttonScroll"
+    (click)="scrollToTop()"
+  >
+    <ion-fab-button>
+      <ion-icon name="arrow-round-up"></ion-icon>
+    </ion-fab-button>
+  </ion-fab>
+</ion-footer>
