@@ -45,11 +45,11 @@ export class ExhibitorService {
       let bookmark = value ? value : [];
       if (data.bookmark === 1) {
         bookmark.push(data.id_exhibitor);
-        this.toast.showToast(`Successfully bookmark ${value.company_name}`);
+        this.toast.showToast(`Successfully bookmark ${data.company_name}`);
       } else if (data.bookmark === 0) {
         const filtered = bookmark.filter((x) => x !== data.id_exhibitor);
         bookmark = filtered;
-        this.toast.showToast(`Successfully unbookmark ${value.company_name}`);
+        this.toast.showToast(`Successfully unbookmark ${data.company_name}`);
       }
 
       this.storage.set(this.exhibitorBookmarkKey, bookmark);
