@@ -16,7 +16,7 @@
 @import "~@ionic/angular/css/normalize.css";
 @import "~@ionic/angular/css/structure.css";
 @import "~@ionic/angular/css/typography.css";
-@import '~@ionic/angular/css/display.css';
+@import "~@ionic/angular/css/display.css";
 
 /* Optional CSS utils that can be commented out */
 @import "~@ionic/angular/css/padding.css";
@@ -24,3 +24,120 @@
 @import "~@ionic/angular/css/text-alignment.css";
 @import "~@ionic/angular/css/text-transformation.css";
 @import "~@ionic/angular/css/flex-utils.css";
+
+.jublia-header {
+  &-primary {
+    --background: linear-gradient(
+      90deg,
+      rgba(255, 216, 1, 1) 0%,
+      rgba(255, 183, 0, 1) 62%
+    );
+  }
+}
+
+ion-content {
+  --background: whitesmoke !important;
+}
+
+ion-searchbar {
+  .searchbar-input {
+    border-radius: 1.625rem !important;
+  }
+}
+
+ion-card {
+  background: white !important;
+  border-radius: 16px !important;
+  box-shadow: 2px 4px 8px 4px rgba(black, 0.1) !important;
+}
+
+ion-button {
+  --background: linear-gradient(
+    90deg,
+    rgba(255, 216, 1, 1) 0%,
+    rgba(255, 183, 0, 1) 62%
+  ) !important;
+  --color: white;
+  text-transform: none !important;
+  --border-radius: 1.625rem !important;
+}
+
+// ANIMATION
+.pulsate {
+  -webkit-animation: pulsate-fwd 0.5s ease-in-out infinite both;
+  animation: pulsate-fwd 0.5s ease-in-out infinite both;
+}
+
+@-webkit-keyframes pulsate-fwd {
+  0% {
+    -webkit-transform: scale(1);
+    transform: scale(1);
+  }
+  50% {
+    -webkit-transform: scale(1.1);
+    transform: scale(1.1);
+  }
+  100% {
+    -webkit-transform: scale(1);
+    transform: scale(1);
+  }
+}
+@keyframes pulsate-fwd {
+  0% {
+    -webkit-transform: scale(1);
+    transform: scale(1);
+  }
+  50% {
+    -webkit-transform: scale(1.1);
+    transform: scale(1.1);
+  }
+  100% {
+    -webkit-transform: scale(1);
+    transform: scale(1);
+  }
+}
+
+.ion-half-modal {
+  .modal-wrapper {
+    position: absolute;
+    bottom: 0;
+    min-height: initial;
+    top: initial;
+    height: 66vh;
+    border-radius: 16px 16px 0px 0px;
+
+    ion-header {
+      &:after {
+        border: 0px !important;
+        border-bottom-color: transparent !important;
+        background-image: none !important;
+        border-bottom: none !important;
+      }
+    }
+    ion-content {
+      --background: white !important;
+    }
+  }
+}
+
+.card {
+  &-selected {
+    background: linear-gradient(
+      90deg,
+      rgba(255, 216, 1, 1) 0%,
+      rgba(255, 183, 0, 1) 62%
+    ) !important;
+    color: white;
+  }
+
+  &-disabled {
+    background: lightgray !important;
+  }
+}
+
+.ellipsis {
+  overflow: hidden;
+  display: -webkit-box;
+  -webkit-line-clamp: 1;
+  -webkit-box-orient: vertical;
+}

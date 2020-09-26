@@ -6,6 +6,7 @@ import { RouterModule } from "@angular/router";
 
 import { HomePage } from "./home.page";
 import { ModalFilterSortModule } from "@shared/common/modal-filter-sort/modal-filter-sort.module";
+import { SkeletonExhibitorListModule } from "@shared/common/skeletons/skeleton-exhibitor-list/skeleton-exhibitor-list.module";
 
 @NgModule({
   imports: [
@@ -19,6 +20,7 @@ import { ModalFilterSortModule } from "@shared/common/modal-filter-sort/modal-fi
       },
     ]),
     ModalFilterSortModule,
+    SkeletonExhibitorListModule,
   ],
   declarations: [HomePage],
 })

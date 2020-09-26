@@ -1,26 +1,65 @@
 <ion-header>
-  <ion-toolbar>
-    <ion-searchbar
-      (ionChange)="filterEventList($event.target.value)"
-      [animated]="true"
-    ></ion-searchbar>
+  <ion-toolbar class="jublia-header-primary">
+    <ion-row class="ion-padding-horizontal ion-padding-top">
+      <ion-col size="6" class="ion-padding-start">
+        <img
+          src="https://jublia.com/img/jublia@2x.png"
+          alt="jublia_logo"
+          height="30"
+        />
+      </ion-col>
+      <ion-col size="6" class="ion-text-right ion-padding-end">
+        <ion-icon size="large" name="contact" color="dark"></ion-icon>
+      </ion-col>
+    </ion-row>
+    <ion-row class="ion-padding-horizontal ion-padding-bottom">
+      <ion-col size="12">
+        <ion-searchbar
+          (ionChange)="filterExhibitorList($event.target.value)"
+          [animated]="true"
+          [disabled]="onLoad"
+        ></ion-searchbar>
+      </ion-col>
+    </ion-row>
   </ion-toolbar>
 </ion-header>
 
-<ion-content [scrollEvents]="true" (ionScroll)="logScroll($event)">
-  <div class="ion-padding" *ngIf="searchQuery">
-    <ion-item>
-      <ion-text>
-        <p>
-          Searching "{{searchQuery}}", found {{filteredExhibitorList.length}} of
-          {{exhibitorList.length}} exhibitor(s).
-        </p>
-      </ion-text>
-    </ion-item>
+<ion-content
+  [scrollEvents]="true"
+  (ionScroll)="logScroll($event)"
+  fullscreen="true"
+  *ngIf="!onLoad"
+>
+  <ion-refresher
+    slot="fixed"
+    pullFactor="0.2"
+    pullMin="10"
+    pullMax="100"
+    (ionRefresh)="fetchExhibitorList($event)"
+  >
+    <ion-refresher-content
+      pullingIcon="chevron-down-circle-outline"
+      pullingText="Pull to refresh"
+      refreshingSpinner="circles"
+      refreshingText="Fetching.."
+    >
+    </ion-refresher-content>
+  </ion-refresher>
+  <div class="ion-padding ion-margin-horizontal" *ngIf="searchQuery">
+    <ion-text size="small" color="medium">
+      <p>
+        Searching "{{searchQuery}}", found {{filteredExhibitorList.length}} of
+        {{exhibitorList.length}} exhibitor(s).
+      </p>
+    </ion-text>
   </div>
-  <div class="ion-padding">
+  <div
+    class="ion-padding"
+    *ngIf="filteredExhibitorList.length > 0 || exhibitorList.length >0"
+  >
     <ion-card
-      *ngFor="let exhibitor of searchQuery ? filteredExhibitorList : exhibitorList"
+      class="ion-margin-bottom ion-padding"
+      *ngFor="let exhibitor of searchQuery ? filteredExhibitorList : filteredExhibitorList.length > 0 ? filteredExhibitorList : exhibitorList"
     >
       <ion-card-header>
         <img
@@ -29,18 +68,21 @@
         />
         <ion-card-title>
           <ion-text>
-            <h2>{{exhibitor?.company_name}}</h2>
+            <h2><b>{{exhibitor?.company_name}}</b></h2>
           </ion-text>
         </ion-card-title>
         <ion-card-subtitle>
           <ng-container *ngFor="let attribute of exhibitor?.attributes;">
             <ng-container *ngFor="let attr of attribute?.Country | keyvalue">
-              <ion-badge color="medium" class="ion-margin-end"
-                >{{attr?.key}}</ion-badge
-              >
+              <ion-text class="ion-padding-end">
+                <ion-icon name="pin" color="dark"></ion-icon> {{attr?.key}}
+              </ion-text>
             </ng-container>
           </ng-container>
-          <ion-badge color="medium">{{exhibitor?.booth}}</ion-badge>
+          <ion-text *ngIf="exhibitor.booth"
+            ><ion-icon name="compass" color="dark"></ion-icon>
+            {{exhibitor?.booth}}</ion-text
+          >
         </ion-card-subtitle>
       </ion-card-header>
       <ion-card-content>
@@ -60,40 +102,56 @@
             </ion-text>
           </ion-col>
         </ion-row>
-        <ion-row>
-          <ion-col size="12" class="ion-text-right">
+        <ion-row class="ion-align-items-center">
+          <ion-col size="10">
+            <ion-button expand="block"> Detail </ion-button>
+          </ion-col>
+          <ion-col size="2" class="ion-text-center ion-align-self-center">
             <ion-icon
+              class="ion-no-padding ion-no-margin"
               [color]="exhibitor?.bookmark === 0 ? 'medium' : 'dark'"
               name="bookmark"
+              size="large"
               (click)="bookmarkExhibitor(exhibitor.id_exhibitor)"
             ></ion-icon>
           </ion-col>
         </ion-row>
       </ion-card-content>
     </ion-card>
-    <ng-container
-      *ngIf="filteredExhibitorList.length === 0 && searchQuery || exhibitorList.length === 0"
-    >
-      <ion-text>
-        <p>No record(s) found :(</p>
-      </ion-text>
-    </ng-container>
+  </div>
+  <div
+    class="ion-padding"
+    *ngIf="filteredExhibitorList.length === 0 && exhibitorList.length === 0 || filteredExhibitorList.length === 0 && searchQuery"
+  >
+    <ion-row class="ion-text-center">
+      <ion-col size="12" class="ion-padding">
+        <img src="/assets/img/not-found.svg" alt="not_found" width="80" />
+      </ion-col>
+      <ion-col size="12">
+        <ion-text color="medium"> No record(s) found. </ion-text>
+      </ion-col>
+    </ion-row>
   </div>
 </ion-content>
-<ion-footer>
-  <ion-fab vertical="bottom" horizontal="center">
-    <ion-fab-button (click)="openModal(true)">
-      <ion-icon name="funnel"></ion-icon
-    ></ion-fab-button>
-  </ion-fab>
+
+<ion-content *ngIf="onLoad">
+  <app-skeleton-exhibitor-list></app-skeleton-exhibitor-list>
+</ion-content>
+
+<div class="ion-text-center ion-padding-bottom" *ngIf="!onLoad">
+  <ion-button (click)="openModal(true)" slot="start">
+    Filter & Sort
+    <span *ngIf="isHaveFilterEntity">({{filteredExhibitorList.length}})</span>
+    <ion-icon name="funnel"></ion-icon
+  ></ion-button>
+
   <ion-fab
     vertical="bottom"
     horizontal="end"
     *ngIf="buttonScroll"
     (click)="scrollToTop()"
+    class="pulsate"
   >
-    <ion-fab-button>
-      <ion-icon name="arrow-round-up"></ion-icon>
-    </ion-fab-button>
+    <ion-icon name="arrow-round-up" size="large"></ion-icon>
   </ion-fab>
-</ion-footer>
+</div>

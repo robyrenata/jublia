@@ -1,83 +1,169 @@
-<ion-header>
+<ion-header class="ion-no-border">
   <ion-toolbar>
-    <ion-buttons slot="end" (click)="dismissModal()">
-      <ion-icon name="close"></ion-icon>
+    <ion-buttons slot="end" class="ion-padding-end">
+      <ion-icon name="close" size="medium" (click)="dismissModal()"></ion-icon>
     </ion-buttons>
   </ion-toolbar>
 </ion-header>
 
-<ion-content [fullscreen]="true" *ngIf="data">
-  <ion-row>
-    <ion-col size="12">
-      <ion-label> Sort </ion-label>
-      <ion-row>
-        <ion-col size="4">
-          Company Name <ion-icon name="arrow-dropup"></ion-icon
-        ></ion-col>
-        <ion-col size="4">
-          Bookmarked ({{ data?.bookmarked }})
-          <ion-icon name="arrow-dropup"></ion-icon
-        ></ion-col>
-        <ion-col size="4">
-          Booth <ion-icon name="arrow-dropup"></ion-icon
-        ></ion-col>
-      </ion-row>
-    </ion-col>
-  </ion-row>
-  <ion-row>
-    <ion-col size="12">
-      <ion-label> Groups </ion-label>
-      <ion-row>
-        <ion-col size="4" *ngFor="let group of data.group">{{ group }}</ion-col>
-      </ion-row>
-    </ion-col>
-    <ion-col size="12">
-      <ion-label> Country </ion-label>
-      <ion-row>
-        <ion-col
-          size="4"
-          *ngFor="let country of data.country.slice(0, limitCountry)"
+<ion-content *ngIf="data" fullscreen="true">
+  <div class="ion-padding">
+    <ion-row>
+      <ion-col>
+        <ion-label> <b>Sort</b> </ion-label>
+        <ion-row>
+          <ion-col size="6" *ngFor="let sort of data.sort">
+            <ion-card
+              class="ion-no-margin"
+              [ngClass]="{
+                'card-selected': sort.selected === true,
+                'card-disabled':
+                  data.bookmarked === 0 && sort.uniq === 'bookmark'
+              }"
+              (click)="
+                sort.uniq === 'bookmark' && data.bookmarked === 0
+                  ? null
+                  : selectSort(sort)
+              "
+            >
+              <ion-card-content class="ion-text-center">
+                <ion-text size="small">
+                  {{ sort.name }}
+                  <span *ngIf="sort.uniq === 'bookmark'"
+                    >({{ data?.bookmarked }})</span
+                  >
+                  <ion-icon
+                    size="medium"
+                    [name]="
+                      sort.isAsc
+                        ? sort.uniq === 'bookmark'
+                          ? 'arrow-up'
+                          : 'arrow-down'
+                        : sort.uniq === 'bookmark'
+                        ? 'arrow-down'
+                        : 'arrow-up'
+                    "
+                  ></ion-icon>
+                </ion-text>
+              </ion-card-content>
+            </ion-card>
+          </ion-col>
+        </ion-row>
+      </ion-col>
+    </ion-row>
+    <ion-row class="ion-padding-vertical">
+      <ion-col size="12">
+        <ion-row
+          class="ion-justify-content-between ion-align-self-center ion-align-items-center"
         >
-          <ion-card>
-            {{ country }}
-          </ion-card>
-        </ion-col>
-        <ion-col
-          size="12"
-          *ngIf="data.country.length > 8"
-          (click)="
-            limitCountry =
-              limitCountry + 8 ||
-              data.country.slice(0, limitCountry).length !== data.country.length
-          "
+          <ion-col size="6">
+            <ion-label> <b>Group</b> </ion-label>
+          </ion-col>
+          <ion-col size="6" class="ion-text-right">
+            <ion-text size="small" (click)="onSelectAll('group')">
+              <p>{{ selectAll["group"] ? "Unselect All" : "Select All" }}</p>
+            </ion-text>
+          </ion-col>
+        </ion-row>
+        <ion-row>
+          <ion-col size="6" *ngFor="let group of data.group">
+            <ion-card
+              class="ion-no-margin"
+              [ngClass]="{ 'card-selected': group.selected === true }"
+              (click)="group.selected = !group.selected"
+            >
+              <ion-card-content class="ion-text-center">
+                <ion-text size="small">
+                  {{ group.name }}
+                </ion-text>
+              </ion-card-content>
+            </ion-card>
+          </ion-col>
+        </ion-row>
+      </ion-col>
+    </ion-row>
+    <ion-row class="ion-padding-vertical">
+      <ion-col size="12">
+        <ion-row
+          class="ion-justify-content-between ion-align-self-center ion-align-items-center"
         >
-          More
-        </ion-col>
-      </ion-row>
-    </ion-col>
-    <ion-col size="12">
-      <ion-label> Industry </ion-label>
-      <ion-row>
-        <ion-col
-          size="4"
-          *ngFor="let industry of data.industry.slice(0, limitIndustry)"
+          <ion-col size="6">
+            <ion-label> <b>Country</b> </ion-label>
+          </ion-col>
+          <ion-col size="6" class="ion-text-right">
+            <ion-text size="small" (click)="onSelectAll('country')">
+              <p>{{ selectAll["country"] ? "Unselect All" : "Select All" }}</p>
+            </ion-text>
+          </ion-col>
+        </ion-row>
+        <ion-row>
+          <ion-col size="6" *ngFor="let country of data.country">
+            <ion-card
+              class="ion-no-margin"
+              [ngClass]="{ 'card-selected': country.selected === true }"
+              (click)="country.selected = !country.selected"
+            >
+              <ion-card-content class="ion-text-center">
+                <ion-text size="small" class="ellipsis">
+                  {{ country.name }}
+                </ion-text>
+              </ion-card-content>
+            </ion-card>
+          </ion-col>
+        </ion-row>
+      </ion-col>
+    </ion-row>
+    <ion-row>
+      <ion-col size="12">
+        <ion-row
+          class="ion-justify-content-between ion-align-self-center ion-align-items-center"
         >
-          <ion-card>
-            {{ industry }}
-          </ion-card>
-        </ion-col>
-        <ion-col
-          size="12"
-          *ngIf="data.industry.length > 8"
-          (click)="limitIndustry = limitIndustry + 8"
+          <ion-col size="6">
+            <ion-label> <b>Industry</b> </ion-label>
+          </ion-col>
+          <ion-col size="6" class="ion-text-right">
+            <ion-text size="small" (click)="onSelectAll('industry')">
+              <p>
+                {{ selectAll["group"] ? "Unselect All" : "Select All" }}
+              </p>
+            </ion-text>
+          </ion-col>
+        </ion-row>
+        <ion-row>
+          <ion-col size="6" *ngFor="let industry of data.industry">
+            <ion-card
+              class="ion-no-margin"
+              [ngClass]="{ 'card-selected': industry.selected === true }"
+              (click)="industry.selected = !industry.selected"
+            >
+              <ion-card-content class="ion-text-center">
+                <ion-text size="small" class="ellipsis">
+                  {{ industry.name }}
+                </ion-text>
+              </ion-card-content>
+            </ion-card>
+          </ion-col>
+        </ion-row>
+      </ion-col>
+    </ion-row>
+    <ion-row class="ion-margin-vertical">
+      <ion-col size="12">
+        <ion-button
+          color="secondary"
+          expand="block"
+          [disabled]="checkSelected().length <= 1"
+          (click)="clearAllFilters()"
         >
-          More
-        </ion-col>
-      </ion-row>
-    </ion-col>
-  </ion-row>
+          Clear All Filter(s)
+        </ion-button>
+      </ion-col>
+    </ion-row>
+  </div>
 </ion-content>
 
-<ion-footer class="ion-no-border" [translucent]="true" class="ion-padding">
-  <ion-button expand="block"> Apply </ion-button>
-</ion-footer>
+<div class="ion-text-center ion-padding-bottom">
+  <ion-button slot="start" color="secondary" (click)="dismissModal()">
+    Cancel
+  </ion-button>
+  <ion-button slot="start" (click)="dismissModal()"> Apply </ion-button>
+</div>

@@ -27,6 +27,7 @@ export class ExhibitorService {
   }
 
   setCacheExhibitor(data) {
+    this.setCacheExhibitorBookmark(data);
     return this.storage.set(this.exhibitorKey, data);
   }
 
@@ -40,11 +41,12 @@ export class ExhibitorService {
 
   setCacheExhibitorBookmark(data) {
     this.getCacheExhibitorBookmark().then((value) => {
+      console.warn("valuuuuuu", value);
       let bookmark = value ? value : [];
       if (data.bookmark === 1) {
         bookmark.push(data.id_exhibitor);
         this.toast.showToast(`Successfully bookmark ${value.company_name}`);
-      } else {
+      } else if (data.bookmark === 0) {
         const filtered = bookmark.filter((x) => x !== data.id_exhibitor);
         bookmark = filtered;
         this.toast.showToast(`Successfully unbookmark ${value.company_name}`);

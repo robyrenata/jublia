@@ -3,6 +3,7 @@ import { async, ComponentFixture, TestBed } from "@angular/core/testing";
 import { Toast } from "@ionic-native/toast/ngx";
 import { IonicModule } from "@ionic/angular";
 import { IonicStorageModule } from "@ionic/storage";
+import { SkeletonExhibitorListModule } from "@shared/common/skeletons/skeleton-exhibitor-list/skeleton-exhibitor-list.module";
 
 import { HomePage } from "./home.page";
 
@@ -17,6 +18,7 @@ describe("HomePage", () => {
         IonicModule.forRoot(),
         HttpClientModule,
         IonicStorageModule.forRoot(),
+        SkeletonExhibitorListModule,
       ],
       providers: [Toast],
     }).compileComponents();
