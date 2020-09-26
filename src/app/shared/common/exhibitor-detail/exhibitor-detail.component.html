@@ -43,7 +43,7 @@
         <ion-card>
           <ion-card-content>
             <ion-text size="small"> Group: </ion-text>
-            <ion-text size="large"
+            <ion-text size="large" color="dark"
               ><b>{{ data?.group }}</b></ion-text
             >
           </ion-card-content>
@@ -55,6 +55,26 @@
             <ion-text size="small"> Booth No: </ion-text>
             <ion-text size="large" color="dark"
               ><b>{{ data?.booth }}</b></ion-text
+            >
+          </ion-card-content>
+        </ion-card>
+      </ion-col>
+      <ion-col size="6">
+        <ion-card>
+          <ion-card-content>
+            <ion-text size="small"> Messaged: </ion-text>
+            <ion-text size="large" color="dark"
+              ><b>{{ data?.messaged === 1 ? "Yes" : "No" }}</b></ion-text
+            >
+          </ion-card-content>
+        </ion-card>
+      </ion-col>
+      <ion-col size="6">
+        <ion-card>
+          <ion-card-content>
+            <ion-text size="small"> Bookmarked: </ion-text>
+            <ion-text size="large" color="dark"
+              ><b>{{ data?.bookmark === 1 ? "Yes" : "No" }}</b></ion-text
             >
           </ion-card-content>
         </ion-card>

@@ -9,7 +9,7 @@ This project was generated with [Ionic CLI](https://ionicframework.com/docs/cli)
 At a high level, the structure looks roughly like this:
 
 ```
-ionic4-boilerplate/
+<<THE APPS>>/
   |- mocks/
   |  |- dummy-data.json
   |  |- routes.json
@@ -31,6 +31,7 @@ ionic4-boilerplate/
   |  |- <env variable>
   |- package.json
 ```
+
 ## Development server
 
 Run `ionic serve` for a dev server. Navigate to `http://localhost:8100/`. The app will automatically reload if you change any of the source files.
@@ -43,7 +44,7 @@ Run `ionic generate page page-name` to generate a new page. You can also use `io
 
 ## Build
 
-Run `ionic build` to build the project. The build artifacts will be stored in the `www/` directory. Use the `--prod` flag for a production build.
+Run `ionic build` to build the project. The build artifacts will be stored in the `www/` directory. Use the `--prod` flag for a production build. Or specifically for Android you can use `npm run build` for developement build and `npm run build:production` for production build.
 
 ## Running unit tests
 
@@ -56,3 +57,7 @@ Run `ng e2e` to execute the end-to-end tests via [Protractor](http://www.protrac
 ## Further help
 
 To get more help on the Ionic CLI use `ionic help` or go check out the [Ionic CLI README]https://github.com/ionic-team/ionic/blob/master/README.md).
+
+## Usage of id_exhibitor
+
+Example for bookmarking function (locally), `id_exhibitor` used as a unique identifier that set to local storage variable. So whenever user bookmark a list, `id_exhibitor` will be pushed to the variable, when user remove the bookmark. It will try to find `id_exhibitor` from list. And filter the list.
