@@ -104,7 +104,9 @@
         </ion-row>
         <ion-row class="ion-align-items-center">
           <ion-col size="10">
-            <ion-button expand="block"> Detail </ion-button>
+            <ion-button expand="block" (click)="openModal(false, exhibitor)">
+              Detail
+            </ion-button>
           </ion-col>
           <ion-col size="2" class="ion-text-center ion-align-self-center">
             <ion-icon

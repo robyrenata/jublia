@@ -103,7 +103,7 @@ ion-button {
     bottom: 0;
     min-height: initial;
     top: initial;
-    height: 66vh;
+    height: 55vh;
     border-radius: 16px 16px 0px 0px;
 
     ion-header {
@@ -116,6 +116,40 @@ ion-button {
     }
     ion-content {
       --background: white !important;
+    }
+  }
+}
+
+.ion-full-modal {
+  .modal-wrapper {
+    position: absolute;
+    bottom: 0;
+    min-height: initial;
+    top: initial;
+    height: 88vh;
+    border-radius: 16px 16px 0px 0px;
+
+    ion-header {
+      ion-toolbar {
+        --background: linear-gradient(
+          90deg,
+          rgba(255, 216, 1, 1) 0%,
+          rgba(255, 183, 0, 1) 62%
+        ) !important;
+      }
+      &:after {
+        border: 0px !important;
+        border-bottom-color: transparent !important;
+        background-image: none !important;
+        border-bottom: none !important;
+      }
+    }
+    ion-content {
+      --background: linear-gradient(
+        90deg,
+        rgba(255, 216, 1, 1) 0%,
+        rgba(255, 183, 0, 1) 62%
+      ) !important;
     }
   }
 }

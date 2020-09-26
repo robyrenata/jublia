@@ -1,5 +1,6 @@
 import { Component, ViewChild } from "@angular/core";
 import { IonContent, ModalController } from "@ionic/angular";
+import { ExhibitorDetailComponent } from "@shared/common/exhibitor-detail/exhibitor-detail.component";
 import { ModalFilterSortComponent } from "@shared/common/modal-filter-sort/modal-filter-sort.component";
 import { GlobalService } from "@shared/services";
 import { ExhibitorService } from "@shared/services/modules/exhibitor.service";
@@ -129,44 +130,46 @@ export class HomePage {
     this.onLoad = false;
   }
 
-  async openModal(isFilterModal: boolean) {
+  async openModal(isFilterModal: boolean, detailData = null) {
     const props = isFilterModal
       ? this.sortFilterEntities
         ? this.sortFilterEntities
         : this.checkAvailableEntities()
-      : null;
+      : detailData;
     const modal = await this.modalCtrl.create({
       component: isFilterModal
         ? ModalFilterSortComponent
-        : ModalFilterSortComponent,
+        : ExhibitorDetailComponent,
       componentProps: { data: props },
-      cssClass: "ion-half-modal",
+      cssClass: isFilterModal ? "ion-half-modal" : "ion-full-modal",
     });
 
     modal.onWillDismiss().then((passed) => {
-      if (passed.data.length > 0) {
-        this.sortFilterEntities = passed.data;
-      }
-      this.filterAndSort();
-      const filtered = this.filterAndSort();
-      if (filtered.length > 0) {
-        this.filteredExhibitorList = filtered;
-        this.isHaveFilterEntity = true;
-      } else {
-        this.isHaveFilterEntity = false;
-      }
+      if (isFilterModal && passed.data) {
+        if (passed.data.length > 0) {
+          this.sortFilterEntities = passed.data;
+        }
+        this.filterAndSort();
+        const filtered = this.filterAndSort();
+        if (filtered.length > 0) {
+          this.filteredExhibitorList = filtered;
+          this.isHaveFilterEntity = true;
+        } else {
+          this.isHaveFilterEntity = false;
+        }
 
-      this.gs.log("okeee?", this.sortFilterEntities);
-      const sort = this.sortFilterEntities.sort.find((x) => x.selected);
-      this.filteredExhibitorList = _.sortBy(
-        this.filteredExhibitorList,
-        sort.uniq
-      );
-      this.exhibitorList = _.sortBy(this.exhibitorList, sort.uniq);
+        this.gs.log("okeee?", this.sortFilterEntities);
+        const sort = this.sortFilterEntities.sort.find((x) => x.selected);
+        this.filteredExhibitorList = _.sortBy(
+          this.filteredExhibitorList,
+          sort.uniq
+        );
+        this.exhibitorList = _.sortBy(this.exhibitorList, sort.uniq);
 
-      if (!sort.isAsc) {
-        this.filteredExhibitorList = this.filteredExhibitorList.reverse();
-        this.exhibitorList = this.exhibitorList.reverse();
+        if (!sort.isAsc) {
+          this.filteredExhibitorList = this.filteredExhibitorList.reverse();
+          this.exhibitorList = this.exhibitorList.reverse();
+        }
       }
     });
 
